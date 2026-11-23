@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import {
   View,
@@ -7,41 +7,67 @@ import {
   StatusBar,
   SafeAreaView,
   ScrollView,
+  TouchableOpacity,
+  Alert,
 } from 'react-native';
 
-export default function App() {
-  return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="dark-content" />
+import LivestockScreen from './src/screens/LivestockScreen';
 
-      <ScrollView showsVerticalScrollIndicator={false}>
+export default function App() {
+  const [activeScreen, setActiveScreen] = useState('dashboard');
+
+  // Open Livestock Management
+  if (activeScreen === 'livestock') {
+    return (
+      <SafeAreaView style={styles.safeArea}>
+        <StatusBar
+          backgroundColor="#246B38"
+          barStyle="light-content"
+        />
+
+        <LivestockScreen
+          onBack={() => setActiveScreen('dashboard')}
+        />
+      </SafeAreaView>
+    );
+  }
+
+  // Show dashboard
+  return (
+    <SafeAreaView style={styles.safeArea}>
+      <StatusBar
+        backgroundColor="#246B38"
+        barStyle="light-content"
+      />
+
+      <ScrollView style={styles.container}>
 
         {/* Header */}
         <View style={styles.header}>
-          <View>
-            <Text style={styles.logo}>FarmBook</Text>
-            <Text style={styles.subtitle}>
-              Smart Farming. Better Management.
-            </Text>
-          </View>
+          <Text style={styles.logo}>FarmBook</Text>
 
-          <Text style={styles.profile}>FB</Text>
+          <Text style={styles.tagline}>
+            Smart Farming. Better Management.
+          </Text>
         </View>
 
         {/* Welcome */}
         <View style={styles.welcome}>
-          <Text style={styles.greeting}>Welcome back!</Text>
+          <Text style={styles.welcomeTitle}>
+            Welcome to FarmBook
+          </Text>
+
           <Text style={styles.welcomeText}>
-            Manage your farm operations from one place.
+            Manage your farm operations in one place.
           </Text>
         </View>
 
-        {/* Statistics */}
+        {/* Farm Overview */}
         <Text style={styles.sectionTitle}>
           Farm Overview
         </Text>
 
-        <View style={styles.statsContainer}>
+        <View style={styles.grid}>
 
           <View style={styles.statCard}>
             <Text style={styles.statNumber}>0</Text>
@@ -70,39 +96,94 @@ export default function App() {
           Farm Management
         </Text>
 
-        <View style={styles.menuContainer}>
+        <View style={styles.managementContainer}>
 
-          <View style={styles.menuCard}>
-            <Text style={styles.menuIcon}>🐄</Text>
-            <Text style={styles.menuTitle}>Livestock</Text>
-            <Text style={styles.menuDescription}>
-              Manage animals and health records.
+          {/* Livestock */}
+          <TouchableOpacity
+            style={styles.managementCard}
+            onPress={() => setActiveScreen('livestock')}
+          >
+            <Text style={styles.cardTitle}>
+              Livestock
             </Text>
-          </View>
 
-          <View style={styles.menuCard}>
-            <Text style={styles.menuIcon}>🌱</Text>
-            <Text style={styles.menuTitle}>Crop Farming</Text>
-            <Text style={styles.menuDescription}>
-              Monitor planting and harvesting.
+            <Text style={styles.cardDescription}>
+              Register and manage farm animals.
             </Text>
-          </View>
 
-          <View style={styles.menuCard}>
-            <Text style={styles.menuIcon}>💰</Text>
-            <Text style={styles.menuTitle}>Finances</Text>
-            <Text style={styles.menuDescription}>
+            <Text style={styles.openText}>
+              Open Management →
+            </Text>
+          </TouchableOpacity>
+
+          {/* Crop Farming */}
+          <TouchableOpacity
+            style={styles.managementCard}
+            onPress={() =>
+              Alert.alert(
+                'Coming Soon',
+                'Crop Farming Management is under development.'
+              )
+            }
+          >
+            <Text style={styles.cardTitle}>
+              Crop Farming
+            </Text>
+
+            <Text style={styles.cardDescription}>
+              Manage crops and farm production.
+            </Text>
+
+            <Text style={styles.openText}>
+              Coming Soon
+            </Text>
+          </TouchableOpacity>
+
+          {/* Finances */}
+          <TouchableOpacity
+            style={styles.managementCard}
+            onPress={() =>
+              Alert.alert(
+                'Coming Soon',
+                'Farm Finance Management is under development.'
+              )
+            }
+          >
+            <Text style={styles.cardTitle}>
+              Finances
+            </Text>
+
+            <Text style={styles.cardDescription}>
               Track farm income and expenses.
             </Text>
-          </View>
 
-          <View style={styles.menuCard}>
-            <Text style={styles.menuIcon}>📊</Text>
-            <Text style={styles.menuTitle}>Reports</Text>
-            <Text style={styles.menuDescription}>
-              Review farm performance.
+            <Text style={styles.openText}>
+              Coming Soon
             </Text>
-          </View>
+          </TouchableOpacity>
+
+          {/* Reports */}
+          <TouchableOpacity
+            style={styles.managementCard}
+            onPress={() =>
+              Alert.alert(
+                'Coming Soon',
+                'Farm Reports are under development.'
+              )
+            }
+          >
+            <Text style={styles.cardTitle}>
+              Reports
+            </Text>
+
+            <Text style={styles.cardDescription}>
+              Review your farm performance.
+            </Text>
+
+            <Text style={styles.openText}>
+              Coming Soon
+            </Text>
+          </TouchableOpacity>
 
         </View>
 
@@ -111,7 +192,8 @@ export default function App() {
           <Text style={styles.footerText}>
             FarmBook by Yaxo-Systems
           </Text>
-          <Text style={styles.footerSub}>
+
+          <Text style={styles.footerSubtext}>
             Building smarter agricultural solutions.
           </Text>
         </View>
@@ -123,140 +205,132 @@ export default function App() {
 
 const styles = StyleSheet.create({
 
+  safeArea: {
+    flex: 1,
+    backgroundColor: '#F4F7F2',
+  },
+
   container: {
     flex: 1,
     backgroundColor: '#F4F7F2',
   },
 
   header: {
-    backgroundColor: '#FFFFFF',
-    padding: 22,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    backgroundColor: '#246B38',
+    padding: 25,
+    paddingTop: 35,
   },
 
   logo: {
-    fontSize: 27,
+    fontSize: 30,
     fontWeight: 'bold',
-    color: '#246B38',
-  },
-
-  subtitle: {
-    fontSize: 11,
-    color: '#718071',
-    marginTop: 4,
-  },
-
-  profile: {
-    backgroundColor: '#246B38',
     color: '#FFFFFF',
-    padding: 12,
-    borderRadius: 25,
-    fontWeight: 'bold',
+  },
+
+  tagline: {
+    fontSize: 13,
+    color: '#E2EFE4',
+    marginTop: 5,
   },
 
   welcome: {
     padding: 22,
-    marginTop: 12,
   },
 
-  greeting: {
-    fontSize: 24,
+  welcomeTitle: {
+    fontSize: 22,
     fontWeight: 'bold',
     color: '#193D27',
   },
 
   welcomeText: {
-    fontSize: 14,
     color: '#718071',
-    marginTop: 8,
+    marginTop: 7,
+    fontSize: 14,
   },
 
   sectionTitle: {
     fontSize: 19,
     fontWeight: 'bold',
     color: '#193D27',
-    marginHorizontal: 22,
-    marginTop: 18,
-    marginBottom: 14,
+    marginHorizontal: 20,
+    marginTop: 15,
+    marginBottom: 15,
   },
 
-  statsContainer: {
+  grid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    paddingHorizontal: 14,
+    paddingHorizontal: 12,
   },
 
   statCard: {
-    width: '46%',
     backgroundColor: '#FFFFFF',
-    padding: 18,
-    margin: '2%',
+    width: '44%',
+    margin: '3%',
+    padding: 20,
     borderRadius: 12,
+    elevation: 2,
   },
 
   statNumber: {
-    fontSize: 23,
+    fontSize: 25,
     fontWeight: 'bold',
     color: '#246B38',
   },
 
   statLabel: {
-    fontSize: 12,
-    color: '#718071',
-    marginTop: 7,
-  },
-
-  menuContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    paddingHorizontal: 14,
-  },
-
-  menuCard: {
-    width: '46%',
-    backgroundColor: '#FFFFFF',
-    padding: 17,
-    margin: '2%',
-    borderRadius: 12,
-    minHeight: 145,
-  },
-
-  menuIcon: {
-    fontSize: 27,
-    marginBottom: 12,
-  },
-
-  menuTitle: {
-    fontSize: 15,
-    fontWeight: 'bold',
-    color: '#193D27',
-  },
-
-  menuDescription: {
-    fontSize: 11,
-    color: '#718071',
-    marginTop: 7,
-    lineHeight: 17,
-  },
-
-  footer: {
-    alignItems: 'center',
-    padding: 30,
-    marginTop: 15,
-  },
-
-  footerText: {
     fontSize: 13,
+    color: '#718071',
+    marginTop: 6,
+  },
+
+  managementContainer: {
+    paddingHorizontal: 20,
+  },
+
+  managementCard: {
+    backgroundColor: '#FFFFFF',
+    padding: 20,
+    borderRadius: 12,
+    marginBottom: 15,
+    elevation: 2,
+  },
+
+  cardTitle: {
+    fontSize: 18,
     fontWeight: 'bold',
     color: '#246B38',
   },
 
-  footerSub: {
-    fontSize: 11,
+  cardDescription: {
+    fontSize: 13,
     color: '#718071',
-    marginTop: 6,
+    marginTop: 7,
+  },
+
+  openText: {
+    fontSize: 13,
+    fontWeight: 'bold',
+    color: '#246B38',
+    marginTop: 12,
+  },
+
+  footer: {
+    padding: 25,
+    alignItems: 'center',
+  },
+
+  footerText: {
+    color: '#246B38',
+    fontWeight: 'bold',
+    fontSize: 14,
+  },
+
+  footerSubtext: {
+    color: '#879287',
+    fontSize: 11,
+    marginTop: 5,
   },
 
 });
