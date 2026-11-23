@@ -10,7 +10,7 @@ import {
   Alert,
 } from 'react-native';
 
-export default function LivestockScreen() {
+export default function LivestockScreen({ onBack }) {
 
   const [animals, setAnimals] = useState([]);
   const [name, setName] = useState('');
